@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIPHER — Classified Intelligence Analysis Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SCANLINE OVERLAY -->
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-left">
+      <div class="logo-mark">⬡</div>
+      <div class="header-titles">
+        <span class="header-agency">DEPT. OF ANOMALOUS PATTERN RECOGNITION</span>
+        <span class="header-system">C.I.P.H.E.R. TERMINAL v4.1.9</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-dot"></div>
+      <span class="status-text">SYSTEM ONLINE</span>
+      <div class="clearance-badge">CLEARANCE: ULTRAVIOLET</div>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker">
+      <span>⬡ ANOMALY DETECTION ACTIVE</span>
+      <span>⬡ ALL SESSIONS LOGGED AND MONITORED</span>
+      <span>⬡ UNAUTHORISED ACCESS IS A FEDERAL OFFENCE</span>
+      <span>⬡ PATTERN CORRELATION ENGINE: NOMINAL</span>
+      <span>⬡ SATELLITE UPLINK: ESTABLISHED</span>
+      <span>⬡ CIVILIAN AWARENESS THRESHOLD: GREEN</span>
+      <span>⬡ TEMPORAL INCONSISTENCY SCANNER: ACTIVE</span>
+      <span>⬡ DEEP STATE MAINFRAME: CONNECTED</span>
+      <span>⬡ ANOMALY DETECTION ACTIVE</span>
+      <span>⬡ ALL SESSIONS LOGGED AND MONITORED</span>
+      <span>⬡ UNAUTHORISED ACCESS IS A FEDERAL OFFENCE</span>
+      <span>⬡ PATTERN CORRELATION ENGINE: NOMINAL</span>
+    </div>
+  </div>
+
+  <main class="main-layout">
+
+    <!-- LEFT PANEL: INPUT -->
+    <section class="panel panel-input" id="inputPanel">
+      <div class="panel-header">
+        <span class="panel-label">INPUT CONSOLE</span>
+        <span class="panel-badge">AWAITING SUBJECTS</span>
+      </div>
+
+      <div class="classified-stamp">CLASSIFIED</div>
+
+      <p class="panel-desc">
+        Enter three anomalous subjects for cross-correlation analysis. The system will establish hidden connections and assess threat vectors.
+      </p>
+
+      <div class="input-group">
+        <label class="input-label" for="subjectA">
+          <span class="input-tag">ALPHA</span> Subject Alpha
+        </label>
+        <input class="terminal-input" type="text" id="subjectA" placeholder="e.g. PIGEONS" maxlength="40" autocomplete="off" spellcheck="false" />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="subjectB">
+          <span class="input-tag">BETA</span> Subject Beta
+        </label>
+        <input class="terminal-input" type="text" id="subjectB" placeholder="e.g. TESCO" maxlength="40" autocomplete="off" spellcheck="false" />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="subjectC">
+          <span class="input-tag">GAMMA</span> Subject Gamma
+        </label>
+        <input class="terminal-input" type="text" id="subjectC" placeholder="e.g. TUESDAY" maxlength="40" autocomplete="off" spellcheck="false" />
+      </div>
+
+      <button class="initiate-btn" id="initiateBtn" onclick="initiateInvestigation()">
+        <span class="btn-icon">▶</span>
+        <span class="btn-text">INITIATE INVESTIGATION</span>
+      </button>
+
+      <button class="reset-btn" id="resetBtn" onclick="resetTerminal()" style="display:none;">
+        ↺ CLEAR AND RUN AGAIN
+      </button>
+
+      <div class="input-footer">
+        <span>SESSION: <span id="sessionId">--</span></span>
+        <span>ANALYST: REDACTED</span>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: OUTPUT -->
+    <section class="panel panel-output" id="outputPanel">
+
+      <!-- IDLE STATE -->
+      <div class="idle-state" id="idleState">
+        <div class="idle-icon">⬡</div>
+        <p class="idle-text">AWAITING INVESTIGATION PARAMETERS</p>
+        <p class="idle-subtext">Enter three subjects and initiate analysis to begin.</p>
+      </div>
+
+      <!-- LOADING STATE -->
+      <div class="loading-state" id="loadingState" style="display:none;">
+        <div class="loading-header">
+          <div class="loading-spinner"></div>
+          <span>ANALYSIS IN PROGRESS</span>
+        </div>
+        <div class="loading-steps" id="loadingSteps"></div>
+        <div class="loading-bar-wrap">
+          <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        <p class="loading-note">DO NOT CLOSE THIS TERMINAL</p>
+      </div>
+
+      <!-- RESULTS STATE -->
+      <div class="results-state" id="resultsState" style="display:none;">
+
+        <div class="result-header">
+          <div class="result-stamp">TOP SECRET // NOFORN</div>
+          <h1 class="op-title" id="opTitle">—</h1>
+          <div class="result-meta">
+            <span class="meta-item threat" id="threatLevel">THREAT: —</span>
+            <span class="meta-item confidence" id="confidenceScore">CONFIDENCE: —%</span>
+            <span class="meta-item" id="caseNumber">CASE: —</span>
+          </div>
+        </div>
+
+        <!-- EVIDENCE BOARD -->
+        <div class="evidence-board-wrap">
+          <div class="panel-label-small">SUBJECT CORRELATION MAP</div>
+          <canvas id="evidenceBoard" width="600" height="220"></canvas>
+        </div>
+
+        <!-- REPORT SECTIONS -->
+        <div class="report-sections" id="reportSections">
+          <!-- injected by JS -->
+        </div>
+
+      </div>
+
+      <!-- ERROR STATE -->
+      <div class="error-state" id="errorState" style="display:none;">
+        <div class="error-icon">⚠</div>
+        <p class="error-title">TRANSMISSION FAILURE</p>
+        <p class="error-msg" id="errorMsg">Connection to analysis mainframe lost.</p>
+        <button class="reset-btn" onclick="resetTerminal()">↺ RETRY</button>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>CIPHER TERMINAL — FOR AUTHORISED USE ONLY</span>
+    <span>ALL CONSPIRACIES ARE FICTIONAL — ANY RESEMBLANCE TO ACTUAL PLOTS IS UNCONFIRMED</span>
+    <span>© DEPT. OF ANOMALOUS PATTERN RECOGNITION</span>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
